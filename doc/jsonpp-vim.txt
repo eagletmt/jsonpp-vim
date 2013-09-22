@@ -1,0 +1,53 @@
+*jsonpp.txt* Pretty-print JSON in a buffer
+
+Author: Kohei Suzuki <eagletmt@gmail.com>
+Repository: https://github.com/eagletmt/jsonpp-vim
+
+CONTENTS                                                     *jsonpp-contents*
+
+Requirements		|jsonpp-requirements|
+Commands		|jsonpp-details|
+Global variables	|jsonpp-global-variables|
+License			|jsonpp-license|
+
+==============================================================================
+REQUIREMENTS                                             *jsonpp-requirements*
+
+|+python3| or |+python| or |+perl|.
+
+==============================================================================
+COMMANDS                                                     *jsonpp-commands*
+
+:JsonPP                                                              *:JsonPP*
+	Pretty-print JSON in the given range (default: current line).
+
+	Example: pretty-print the visually-selected lines.
+	1. Select JSON lines by |V|.
+	2. Type :JsonPP.
+
+==============================================================================
+GLOBAL VARIABLES                                     *jsonpp-global-variables*
+
+g:jsonpp_indent                                              *g:jsonpp_indent*
+	Indent level.
+
+	Default: 4
+
+g:jsonpp_ensure_ascii                                  *g:jsonpp_ensure_ascii*
+	Whether non-ascii characters in a string literal is escaped as
+	"\uxxxx".
+
+	Default: 1
+
+g:jsonpp_engine                                              *g:jsonpp_engine*
+	Method to pretty-print JSON.
+	Supported engines are: python3, python2, perl
+
+	Default: guessed in the order listed above.
+
+==============================================================================
+LICENSE                                                       *jsonpp-license*
+
+MIT License
+
+vim:tw=78:ts=8:noet:ft=help:norl:
