@@ -40,6 +40,9 @@ EOS
 endfunction
 
 function! s:pp.python3.available()
+  if !has('python3')
+    return 0
+  endif
   try
     python3 <<EOS
 import vim
@@ -55,6 +58,9 @@ function! s:pp.python3.prettify(line1, line2)
 endfunction
 
 function! s:pp.python2.available()
+  if !has('python')
+    return 0
+  endif
   try
     python <<EOS
 import vim
@@ -70,6 +76,9 @@ function! s:pp.python2.prettify(line1, line2)
 endfunction
 
 function! s:pp.perl.available()
+  if !has('perl')
+    return 0
+  endif
   try
     perl <<EOS
 use JSON::PP ();
