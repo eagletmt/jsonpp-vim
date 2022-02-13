@@ -1,6 +1,6 @@
 function! jsonpp#prettify(line1, line2)
   if !exists('g:jsonpp_engine')
-    for l:engine in ['python3', 'python2', 'perl']
+    for l:engine in ['python3', 'perl']
       if s:pp[l:engine].available()
         let g:jsonpp_engine = l:engine
         break
@@ -16,28 +16,8 @@ endfunction
 
 let s:pp = {
       \ 'python3': {},
-      \ 'python2': {},
       \ 'perl': {},
       \ }
-
-function! s:python_prettify(line1, line2)
-  python <<EOS
-import vim
-import json
-
-indent = vim.vars.get('jsonpp_indent', 4)
-ensure_ascii = not not vim.vars.get('jsonpp_ensure_ascii', True)
-line1 = vim.bindeval('a:line1')
-line2 = vim.bindeval('a:line2')
-
-data = ''.join(vim.current.buffer.range(line1, line2))
-formatted = json.dumps(json.loads(data), indent=indent, separators=(',', ': '), ensure_ascii=ensure_ascii, sort_keys=True)
-
-buf = vim.current.buffer
-del buf[line1-1 : line2]
-buf.append(formatted.splitlines(), line1-1)
-EOS
-endfunction
 
 function! s:pp.python3.available()
   if !has('python3')
@@ -54,25 +34,22 @@ EOS
 endfunction
 
 function! s:pp.python3.prettify(line1, line2)
-  call s:python_prettify(a:line1, a:line2)
-endfunction
-
-function! s:pp.python2.available()
-  if !has('python')
-    return 0
-  endif
-  try
-    python <<EOS
+  python3 <<EOS
 import vim
 import json
-EOS
-    return 1
-  endtry
-  return 0
-endfunction
 
-function! s:pp.python2.prettify(line1, line2)
-  call s:python_prettify(a:line1, a:line2)
+indent = vim.vars.get('jsonpp_indent', 4)
+ensure_ascii = not not vim.vars.get('jsonpp_ensure_ascii', True)
+line1 = vim.bindeval('a:line1')
+line2 = vim.bindeval('a:line2')
+
+data = ''.join(vim.current.buffer.range(line1, line2))
+formatted = json.dumps(json.loads(data), indent=indent, separators=(',', ': '), ensure_ascii=ensure_ascii, sort_keys=True)
+
+buf = vim.current.buffer
+del buf[line1-1 : line2]
+buf.append(formatted.splitlines(), line1-1)
+EOS
 endfunction
 
 function! s:pp.perl.available()
